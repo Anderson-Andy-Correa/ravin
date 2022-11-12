@@ -11,6 +11,8 @@ object dmRavin: TdmRavin
       'Password=root'
       'DriverID=MySQL')
     UpdateOptions.AssignedValues = [uvUpdateMode]
+    AfterConnect = cnxBancoDeDadosAfterConnect
+    BeforeConnect = cnxBancoDeDadosBeforeConnect
     Left = 40
     Top = 24
   end
