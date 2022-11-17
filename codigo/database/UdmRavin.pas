@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.MySQL,
   FireDAC.Phys.MySQLDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
   FireDAC.Comp.UI, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.DataSet;
+  FireDAC.DApt, FireDAC.Comp.DataSet, Vcl.Dialogs, IOUtils;
 
 type
   TdmRavin = class(TDataModule)
@@ -32,16 +32,18 @@ var
 implementation
 
 uses
-  Vcl.Dialogs;
+  UresourceUtils;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
+
 {$R *.dfm}
 
 procedure TdmRavin.cnxBancoDeDadosAfterConnect(Sender: TObject);
   var
     LCreateDataBase: Boolean;
   begin
-    LCreateDataBase := not FileExists('C:\ProgramData\MySQL\MySQL Server 8.0\Data\ravin');
+    LCreateDataBase := not TDirectory.Exists('C:\ProgramData\MySQL\' +
+      'MySQL Server 8.0\Data\ravin');
 
     if LCreateDataBase then
       begin
@@ -54,18 +56,18 @@ procedure TdmRavin.cnxBancoDeDadosBeforeConnect(Sender: TObject);
   var
     LCreateDataBase: Boolean;
   begin
-    LCreateDataBase := FileExists('C:\ProgramData\MySQL\MySQL Server 8.0\Data\ravin');
+    LCreateDataBase := TDirectory.Exists('C:\ProgramData\MySQL\' +
+      'MySQL Server 8.0\Data\ravin');
     with cnxBancoDeDados do
       begin
         {Params.Values['Database']  := 'ravin';} // The fist time, there's no DataBase
         Params.Values['Server']    := 'localhost';
         Params.Values['User_Name'] := 'root';
-        Params.Values['Database']  := 'ravin';
         Params.Values['Password']  := 'root';
         Params.Values['DriverID']  := 'MySQL';
         Params.Values['Port']      := '3306';
 
-        if not LCreateDataBase then
+        if LCreateDataBase then
           begin
             Params.Values['Database']  := 'ravin';
           end;
@@ -73,18 +75,13 @@ procedure TdmRavin.cnxBancoDeDadosBeforeConnect(Sender: TObject);
   end;
 
 procedure TdmRavin.CreateTables;
-  var
-    LSqlScriptFiles: TStringList;
-    LPathFile: String;
   begin
-    LSqlScriptFiles := TStringList.Create;
-    LPathFile       := 'C:\Users\andersoncorrea\Documents' +
-                       '\ravin\database\createTable.sql';
-                       // Don't use this, I'll recode this later
-    LSqlScriptFiles.LoadFromFile(LPathFile);
-    cnxBancoDeDados.ExecSQL(LSqlScriptFiles.Text);
-
-    FreeAndNil(LSqlScriptFiles);
+    try
+      cnxBancoDeDados.ExecSQL(TResourceUtils.LoadResourceFile(
+      'createTable.sql','ravin\database'));
+    except on E: Exception do
+      ShowMessage(E.Message);
+    end;
   end;
 
 procedure TdmRavin.DataModuleCreate(Sender: TObject);
@@ -96,18 +93,11 @@ procedure TdmRavin.DataModuleCreate(Sender: TObject);
   end;
 
 procedure TdmRavin.InsertDatas;
-  var
-    LSqlScriptFile: TStringList;
-    LPathFile: String;
   begin
-    LSqlScriptFile := TStringList.Create;
-    LPathFile := 'C:\Users\andersoncorrea\Documents' +
-                 '\ravin\database\inserts.sql';
-    LSqlScriptFile.LoadFromFile(LPathFile);
-
     Try
       cnxBancoDeDados.StartTransaction();
-      cnxBancoDeDados.ExecSQL(LSqlScriptFile.Text);
+      cnxBancoDeDados.ExecSQL(TResourceUtils.LoadResourceFile(
+      'inserts.sql','ravin\database'));
       cnxBancoDeDados.Commit();
 
     except
@@ -117,7 +107,5 @@ procedure TdmRavin.InsertDatas;
           ShowMessage(E.Message);
         end;
     end;
-    FreeAndNil(LSqlScriptFile);
   end;
-
 end.
