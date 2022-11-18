@@ -1,0 +1,119 @@
+1 Qual o produto com o maior preço de custo;
+Possível: select nome, PrecoCusto from produto order by precoCusto desc limit 1;
+	  select nome, max(PrecoCusto) from produto group by PrecoCusto order by PrecoCusto desc limit 1;
+Certo	: 
+
+2 Qual o produto com o maior preço de venda;
+Possível: select nome, PrecoVenda from produto order by PrecoVenda desc limit 1;
+	  select nome, max(PrecoVenda) from produto group by PrecoVenda order by PrecoCVenda desc limit 1;
+Certo	: 
+
+3 Qual produto com o menor preço de custo;
+Possível: select nome, PrecoCusto from produto order by precoCusto limit 1;
+	  select nome, min(PrecoCusto) from produto group by PrecoCusto order by PrecoCusto limit 1;
+Certo	: 
+
+4 Qual produto com o menor preço de venda;
+Possível: select nome, PrecoVenda from produto order by PrecoVenda limit 1;
+	  select nome, min(PrecoVenda) from produto group by PrecoVenda order by PrecoCVenda limit 1;
+Certo	: 
+
+5 A comanda mais recente;
+Possível: select * from comanda order by criadoEm desc limit 1;
+Certo	:
+
+6 A comanda mais velha;
+Possível: select * from comanda order by criadoEm limit 1;
+Certo	:
+
+7 A comanda com maior valor (baseado no valor da comanda);
+Possível: select * from comanda order by valor desc limit 1;
+Certo	:0
+
+8 As 3 comandas com maior valor ordenadas em ordem crescente;
+Possível: select * from comanda order by valor limit 3;
+Certo	:
+
+9 Busque os clientes que são aniversariantes do mês;
+Possível: Não tem data de nascimento
+Certo	:
+
+10 Mesas sem atendente;
+Possível: select * from mesa where atendenteid = null; -- Não Há
+Certo	:
+
+11 Quantos atendentes;
+Possível: select count(*) from pessoa where tipoPessoa = 'F' and ativo = '1'; -- Somente 1 funcionário Ativo atual
+Certo	:
+
+12 Quantidade de comandas dos dois últimos anos;
+Possível: select count(*) from comanda where criadoEm >= '2020';
+Certo	:
+
+13 O maior valor de comanda (considerando apenas o valor da comanda) dia a dia do mês atual; 
+Possível: select id, max(valor), CriadoEM from comanda where CriadoEm like '2022-11%' group by CriadoEM; -- Só tem um valor, testar com '2022-01%'
+Certo	:
+
+14 O valor de cada comanda (baseado nos itens) juntamente com o item mais caro da comanda;
+Possível: select comanda.id, sum(comandaProduto.ValorTotal), max(comandaProduto.ValorTotal) from comanda join comandaproduto where comanda.id = comandaproduto.comandaid group by comandaproduto.comandaid;
+Certo	:
+
+15 O valor que cada cliente já gastou no restaurante;
+Possível: select pessoa.nome, sum(comandaproduto.ValorTotal) from comandaproduto join comanda join pessoa where pessoa.id = comanda.clienteid and comanda.id = comandaproduto.comandaid group by pessoa.nome;
+Certo	:
+
+16 Listar o código das mesas juntamente com o nome dos atendentes responsáveis por cada mesa (apenas as mesas que contém atendente);
+Possível: 
+Certo	:
+
+17 Listar as comandas com seus produtos mostrando o código da comanda e o nome do produto;
+Possível:
+Certo	:
+
+18 Listar as comandas mostrando o valor total de cada comanda;
+Possível:
+Certo	:
+
+19 Buscar a comanda que teve a maior valor, mostrando o código da comanda, o valor da comanda e o nome do atendente responsável por aquela comanda;
+Possível:
+Certo	:
+
+20 Quantidade de clientes em cada dia;
+Possível: select count(*), comanda.criadoEm from comanda join pessoa where comanda.clienteid = pessoa.id group by comanda.criadoEm;
+Certo	:
+
+21 O funcionário mais velho que já fez algum atendimento
+Possível:
+Certo	:
+
+22 A comanda com maior valor (valor da Comanda) e que não está paga
+Possível: select comanda.id, max(comanda.valor), statuscomanda.nome from comanda join statuscomanda where statuscomanda.id = comanda.statuscomandaid and statuscomanda.nome <> 'Paga' group by statuscomanda.nome;
+Certo	:
+
+23 A comanda com menor valor (valor da Comanda) e que já está paga
+Possível: select comanda.id, min(comanda.valor), statuscomanda.nome from comanda join statuscomanda where statuscomanda.id = comanda.statuscomandaid and statuscomanda.nome = 'Paga' group by statuscomanda.nome;
+Certo	:
+
+24 Quantos clientes tem comandas em aberto
+Possível:
+Certo	:
+
+25 Quanto cada mesa já arrecadou
+Possível:
+Certo	:
+
+26 Quantidade de clientes que nunca consumiram no restaurante
+Possível:
+Certo	:
+
+27 Os cliente que nunca consumiram no restaurante
+Possível:
+Certo	:
+
+28 As comandas que estão em mesas ocupadas (juntamente com seu valor);
+Possível:
+Certo	:
+
+29 Os 10 produtos mais vendidos (ultimo mês)
+Possível: select produto.nome, sum(comandaproduto.quantidade) from comandaproduto join produto where produto.id = comandaproduto.produtoid and comandaproduto.CriadoEm > '2022-10' group by produto.id order by sum(comandaproduto.quantidade) desc limit 10;
+Certo	:
