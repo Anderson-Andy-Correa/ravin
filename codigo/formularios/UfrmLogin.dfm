@@ -2782,16 +2782,26 @@ object frmLogin: TfrmLogin
         Width = 249
         ExplicitLeft = 0
         ExplicitTop = 0
-        ExplicitWidth = 250
+        ExplicitWidth = 249
         ExplicitHeight = 50
         inherited spdAutenticar: TSpeedButton
           Width = 247
+          OnClick = frmAutenticar1spdAutenticarClick
           ExplicitLeft = 31
           ExplicitTop = 1
           ExplicitWidth = 248
           ExplicitHeight = 48
         end
       end
+    end
+    object Button1: TButton
+      Left = 560
+      Top = 360
+      Width = 75
+      Height = 25
+      Caption = 'Button1'
+      TabOrder = 3
+      OnClick = Button1Click
     end
   end
 end

@@ -14,7 +14,9 @@ uses
   UfrmComandas in '..\codigo\formularios\UfrmComandas.pas' {frmComandas},
   UresourceUtils in '..\codigo\Utils\UresourceUtils.pas',
   UfrmLogin in '..\codigo\formularios\UfrmLogin.pas' {frmLogin},
-  UfrmAutenticar in '..\codigo\frames\UfrmAutenticar.pas' {frmAutenticar: TFrame};
+  UfrmAutenticar in '..\codigo\frames\UfrmAutenticar.pas' {frmAutenticar: TFrame},
+  Uusuario in '..\codigo\Modelos\Uusuario.pas',
+  UusuarioDao in '..\codigo\dao\UusuarioDao.pas';
 
 {$R *.res}
 
