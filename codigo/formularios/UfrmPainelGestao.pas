@@ -43,6 +43,7 @@ type
     procedure frmMenuItemProdutoslblTituloClick(Sender: TObject);
     procedure frmMenuItemMesaslblTituloClick(Sender: TObject);
     procedure frmMenuItemComandaslblTituloClick(Sender: TObject);
+    procedure SetarFormPrincipal(PNovoFormulario: TForm);
   private
     { Private declarations }
   public
@@ -59,7 +60,7 @@ implementation
 uses
   UfrmSobre,
   UfrmProdutos,
-  UfrmMesas, UfrmComandas;
+  UfrmMesas, UfrmComandas, UiniUtils, UfrmRegistrar, UfrmLogin;
 
 procedure TfrmPainelGestao.FrameMenuItemMesasLabelTitleClick(Sender: TObject);
 begin
@@ -99,7 +100,16 @@ end;
 
 procedure TfrmPainelGestao.frmMenuItemSairlblTituloClick(Sender: TObject);
 begin
-  Application.Terminate();
+  TIniUtils.gravarPropriedade(TSecao.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO, TIniUtils.VALOR_FALSO);
+  if not Assigned(frmLogin) then
+    begin
+      Application.CreateForm(TfrmLogin, frmLogin);
+    end;
+
+    SetarFormPrincipal(frmLogin);
+    frmLogin.Show();
+
+    Close();
 end;
 
 procedure TfrmPainelGestao.frmMenuItemSobrelblTituloClick(Sender: TObject);
@@ -110,5 +120,13 @@ begin
   end;
   frmSobre.show();
 end;
+
+procedure TfrmPainelGestao.SetarFormPrincipal(PNovoFormulario: TForm);
+  var
+    tmpMain: ^TCustomForm;
+  begin
+    tmpMain := @Application.Mainform;
+    tmpMain^ := PNovoFormulario;
+  end;
 
 end.

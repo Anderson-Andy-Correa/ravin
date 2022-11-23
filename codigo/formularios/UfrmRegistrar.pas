@@ -86,13 +86,12 @@ begin
           alteradoEM := now();
           AlteradoPor := 'admin';
         end;
-        
-      LDao := TUsuarioDAO.Create;
-        
+
       TValidadorUsuario.Validar(LUsuario, edtConfirmarSenha.text);
 
-      Ldao.InserirUsuario(LUsuario);
-        
+      LDao := TUsuarioDAO.Create;
+      LDao.InserirUsuario(LUsuario);
+
     except
       on E: EMySQLNativeException do
         begin
@@ -104,8 +103,11 @@ begin
         end;
     end;
   finally
+    if assigned(LDao) then
+      begin
+        FreeAndNil(LDao);
+      end;
     FreeAndNil(LUsuario);
-    FreeAndNil(Ldao);
   end;
   
 end;

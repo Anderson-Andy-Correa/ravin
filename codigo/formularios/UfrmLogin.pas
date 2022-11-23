@@ -34,7 +34,7 @@ var
 implementation
 
 uses
-  UfrmPainelGestao, UusuarioDao, Uusuario, UfrmRegistrar;
+  UfrmPainelGestao, UusuarioDao, Uusuario, UfrmRegistrar, UiniUtils;
 
 {$R *.dfm}
 
@@ -54,6 +54,7 @@ procedure TfrmLogin.frmAutenticar1spdAutenticarClick(Sender: TObject);
 
     if Assigned(LUsuario) then
       begin
+        TIniUtils.gravarPropriedade(TSecao.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO, TIniUtils.VALOR_VERDADEIRO);
         if not assigned(frmPainelGestao) then
           begin
             application.CreateForm(TfrmPainelGestao, frmPainelGestao);

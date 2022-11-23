@@ -19,7 +19,8 @@ uses
   UusuarioDao in '..\codigo\dao\UusuarioDao.pas',
   UfrmBotaoPrimario in '..\codigo\frames\UfrmBotaoPrimario.pas' {frmBotaoPrimario: TFrame},
   UfrmRegistrar in '..\codigo\formularios\UfrmRegistrar.pas' {frmRegistrar},
-  ValidadorUsuario in '..\codigo\validadores\ValidadorUsuario.pas';
+  ValidadorUsuario in '..\codigo\validadores\ValidadorUsuario.pas',
+  UiniUtils in '..\codigo\Utils\UiniUtils.pas';
 
 {$R *.res}
 
