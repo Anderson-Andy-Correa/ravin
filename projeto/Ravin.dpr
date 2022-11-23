@@ -16,7 +16,10 @@ uses
   UfrmLogin in '..\codigo\formularios\UfrmLogin.pas' {frmLogin},
   UfrmAutenticar in '..\codigo\frames\UfrmAutenticar.pas' {frmAutenticar: TFrame},
   Uusuario in '..\codigo\Modelos\Uusuario.pas',
-  UusuarioDao in '..\codigo\dao\UusuarioDao.pas';
+  UusuarioDao in '..\codigo\dao\UusuarioDao.pas',
+  UfrmBotaoPrimario in '..\codigo\frames\UfrmBotaoPrimario.pas' {frmBotaoPrimario: TFrame},
+  UfrmRegistrar in '..\codigo\formularios\UfrmRegistrar.pas' {frmRegistrar},
+  ValidadorUsuario in '..\codigo\validadores\ValidadorUsuario.pas';
 
 {$R *.res}
 

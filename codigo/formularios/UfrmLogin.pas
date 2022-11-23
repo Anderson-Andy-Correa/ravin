@@ -19,9 +19,8 @@ type
     lblTituloRegistrar: TLabel;
     lblSubTituloRegistrar: TLabel;
     frmAutenticar1: TfrmAutenticar;
-    Button1: TButton;
     procedure frmAutenticar1spdAutenticarClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure lblSubTituloRegistrarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -35,32 +34,9 @@ var
 implementation
 
 uses
-  UfrmPainelGestao, UusuarioDao, Uusuario;
+  UfrmPainelGestao, UusuarioDao, Uusuario, UfrmRegistrar;
 
 {$R *.dfm}
-
-procedure TfrmLogin.Button1Click(Sender: TObject);
-  var
-    LUsuario: TUsuario;
-    LDao: TUsuarioDao;
-  begin
-    LUsuario := TUsuario.Create;
-    with LUsuario do
-      begin
-        login := 'teste';
-        senha := '123';
-        pessoaID := 1;
-        criadoEm := now();
-        criadoPor := 'Andy';
-        alteradoEm := now();
-        alteradoPor := 'Andy';
-      end;
-    LDao := TUsuarioDao.Create;
-    LDao.InserirUsuario(LUsuario);
-
-    FreeAndNil(LDao);
-    FreeAndNil(LUsuario);
-  end;
 
 procedure TfrmLogin.frmAutenticar1spdAutenticarClick(Sender: TObject);
   var
@@ -95,6 +71,19 @@ procedure TfrmLogin.frmAutenticar1spdAutenticarClick(Sender: TObject);
 
     FreeAndNil(LUsuario);
     FreeAndNil(LDAo);
+  end;
+
+procedure TfrmLogin.lblSubTituloRegistrarClick(Sender: TObject);
+  begin
+    if not Assigned(frmRegistrar) then
+    begin
+      Application.CreateForm(TfrmRegistrar, frmRegistrar);
+    end;
+
+    SetarFormPrincipal(frmRegistrar);
+    frmRegistrar.Show();
+
+    Close();
   end;
 
 procedure TfrmLogin.SetarFormPrincipal(PNovoFormulario: TForm);

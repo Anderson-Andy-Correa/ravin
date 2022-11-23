@@ -2697,6 +2697,7 @@ object frmLogin: TfrmLogin
       Font.Name = 'Roboto'
       Font.Style = [fsBold]
       ParentFont = False
+      OnClick = lblSubTituloRegistrarClick
       ExplicitWidth = 214
     end
     object lblTitulo: TLabel
@@ -2793,15 +2794,6 @@ object frmLogin: TfrmLogin
           ExplicitHeight = 48
         end
       end
-    end
-    object Button1: TButton
-      Left = 560
-      Top = 360
-      Width = 75
-      Height = 25
-      Caption = 'Button1'
-      TabOrder = 3
-      OnClick = Button1Click
     end
   end
 end
