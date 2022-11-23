@@ -26,35 +26,35 @@ Certo	:
 Possível: select * from comanda order by criadoEm limit 1;
 Certo	:
 
-7 A comanda com maior valor (baseado no valor da comanda);
+7 A comanda com maior valor (baseado campo valor da tabela “comanda”);
 Possível: select * from comanda order by valor desc limit 1;
 Certo	:0
 
-8 As 3 comandas com maior valor ordenadas em ordem crescente;
+8 As 3 comandas com maior valor (baseado campo valor da tabela “comanda”) ordenadas em ordem crescente;
 Possível: select * from comanda order by valor limit 3;
 Certo	:
 
-9 Busque os clientes que são aniversariantes do mês;
+9 Os clientes que são aniversariantes do mês;
 Possível: select p.nome as Nome, p.CriadoEM as Data from pessoa p where criadoEm like '2022-11%' order by criadoEm; -- Não tem data de nascimento
 Certo	:
 
-10 Mesas sem atendente;
+10 O código das mesas que onde não possuem atendentes alocados;
 Possível: select * from mesa where atendenteid = null; -- Não Há
 Certo	:
 
-11 Quantos atendentes;
+11 A quantidade de atendentes que existem cadastrados;
 Possível: select count(*) from pessoa where tipoPessoa = 'F' and ativo = '1'; -- Somente 1 funcionário Ativo atual
 Certo	:
 
-12 Quantidade de comandas dos dois últimos anos;
+12 A quantidade de comandas dos dois últimos anos (baseados na data de hoje);
 Possível: select count(*) from comanda where criadoEm >= '2020';
 Certo	:
 
-13 O maior valor de comanda (considerando apenas o valor da comanda) dia a dia do mês atual; 
+13 O maior valor de comanda (baseado campo valor da tabela “comanda”) dia a dia do mês atual;
 Possível: select id, max(valor), CriadoEM from comanda where CriadoEm like '2022-11%' group by CriadoEM; -- Só tem um valor, testar com '2022-01%'
 Certo	:
 
-14 O valor de cada comanda (baseado nos itens) juntamente com o item mais caro da comanda;
+14 O valor de cada comanda (baseado na soma dos valores dos produtos da comanda) juntamente com valor do item mais caro que compõe a comanda;
 Possível: select comanda.id, sum(comandaProduto.ValorTotal), max(comandaProduto.ValorTotal) from comanda join comandaproduto on comanda.id = comandaproduto.comandaid group by comandaproduto.comandaid;
 Certo	:
 
@@ -62,58 +62,70 @@ Certo	:
 Possível: select p.nome, sum(cp.ValorTotal) from comandaproduto cp join comanda c on c.id = cp.comandaid join pessoa p on p.id = c.clienteid group by p.nome order by p.nome;
 Certo	:
 
-16 Listar o código das mesas juntamente com o nome dos atendentes responsáveis por cada mesa (apenas as mesas que contém atendente);
+16 A lista de códigos das mesas juntamente com o nome dos atendentes responsáveis por cada mesa (apenas as mesas que contém atendente);
 Possível: select m.codigo, p.nome from mesa m join pessoa p on m.atendenteid = p.id;
 Certo	:
 
-17 Listar as comandas com seus produtos mostrando o código da comanda e o nome do produto;
+17 A lista das comandas com seus produtos mostrando o código da comanda e o nome do produto;
 Possível: select c.codigo, p.nome from comanda c join comandaproduto cp on cp.comandaid = c.id join produto p on cp.produtoid = p.id order by c.codigo, p.nome;
 Certo	:
 
-18 Listar as comandas mostrando o valor total de cada comanda;
+18 Os valores totais de cada comanda (baseado na soma dos itens da tabela “comandaProduto”);
 Possível: select c.codigo as Comanda, sum(cp.valortotal) as 'Valor Total' from Comanda C join ComandaProduto cp on c.id = cp.comandaid group by c.codigo;
 Certo	:
 
-19 Buscar a comanda que teve a maior valor, mostrando o código da comanda, o valor da comanda e o nome do atendente responsável por aquela comanda;
+19 A comanda que teve a maior valor, mostrando o código da comanda, o valor da comanda e o nome do atendente responsável por aquela comanda;
 Possível:select c.codigo as 'Código da Mesa', max(c.valor) as 'Maior Valor', p.nome as 'Atendente' from comanda c join mesa m on c.mesaid = m.id join pessoa p on p.id = m.atendenteid;
 Certo	:
 
-20 Quantidade de clientes em cada dia;
+20 A quantidade de clientes em cada dia;
 Possível: select count(*), comanda.criadoEm from comanda join pessoa on comanda.clienteid = pessoa.id group by comanda.criadoEm;
 Certo	:
 
-21 O funcionário mais velho que já fez algum atendimento
+21 O funcionário mais velho que já fez algum atendimento;
 Possível: select p.nome, p.id, p.criadoem 'De casa desde' from pessoa p join mesa m on p.id = m.atendenteid order by p.criadoEm limit 1;
 Certo	:
 
-22 A comanda com maior valor (valor da Comanda) e que não está paga
+22 A comanda com maior valor (baseado na soma dos itens da tabela “comandaProduto”) e que não está paga;
 Possível: select c.id 'Comanda', c.valor 'Maior Valor', sc.nome 'Situação' from comanda c join statuscomanda sc on sc.id = c.statuscomandaid where sc.nome <> 'Paga' order by c.Valor desc limit 1;
 Certo	:
 
-23 A comanda com menor valor (valor da Comanda) e que já está paga
+23 . A comanda com menor valor (baseado na soma dos itens da tabela “comandaProduto”) e que já está paga;
 Possível: select c.id 'Comanda', c.valor 'Maior Valor', sc.nome 'Situação' from comanda c join statuscomanda sc on sc.id = c.statuscomandaid where sc.nome = 'Paga' order by c.Valor limit 1; -- Retorna Vazia, nenhuma 'Paga'
 Certo	:
 
-24 Quantos clientes tem comandas em aberto
+24 A quantidade de clientes que tem comandas em aberto;
 Possível: select count(*) 'Qtd Pessoas', sc.Nome 'Situação' from pessoa p join comanda c on p.id = c.clienteid join statuscomanda sc on sc.id = c.statuscomandaid where sc.nome = 'Em Aberto';
 Certo	:
 
-25 Quanto cada mesa já arrecadou
+25 O valor arrecadado por cada mesa (baseado campo valor da tabela “comanda”);
 Possível: select m.id, sum(c.valor) from mesa m join comanda c on m.id = c.mesaid join statuscomanda sc on c.statuscomandaid = sc.id where sc.nome = 'Paga' group by m.id; -- Retorna Vazia, nenhuma 'Paga'
 Certo	:
 
-26 Quantidade de clientes que nunca consumiram no restaurante
+26 A quantidade de clientes que nunca consumiram no restaurante;
 Possível: select count(*) from pessoa p left join comanda c on c.clienteid = p.id where p.id not in(select c.clienteid from comanda c);
 Certo	:
 
-27 Os cliente que nunca consumiram no restaurante
+27 Os clientes que nunca consumiram no restaurante;
 Possível: select p.nome from pessoa p left join comanda c on c.clienteid = p.id where p.id not in(select c.clienteid from comanda c) order by p.nome;
 Certo	:
 
-28 As comandas que estão em mesas ocupadas (juntamente com seu valor);
+28 As comandas que estão em mesas ocupadas juntamente com seu valor (baseado campo valor da tabela “comanda”);
 Possível: select c.id 'Comanda' from comanda c join mesa m on c.mesaid = m.id join statusmesa sm on m.statusmesaid = sm.id where sm.nome = 'Ocupada';
 Certo	:
 
-29 Os 10 produtos mais vendidos (ultimo mês)
+29 Os 10 produtos mais vendidos (último mês);
 Possível: select p.nome 'Produto', sum(cp.quantidade) 'Qtd Vendida' from comandaproduto cp join produto p on p.id = cp.produtoid where cp.CriadoEm like '2022-11%' group by p.id order by sum(cp.quantidade) desc limit 10;
+Certo	:
+
+30 O valor da comanda com maior valor e com menor valor (baseado campo valor da tabela “comanda”);
+Possível: select (select comanda.id from comanda where comanda.valor = max(c.valor)) 'ID Maior', max(c.valor) 'Maior Valor', min(c.Valor) 'Menor Valor', (select comanda.id from comanda where comanda.valor = min(c.valor)) 'ID Menor' from comanda c order by max(c.valor), min(c.Valor);
+Certo	:
+
+31 Os produtos que nunca saíram em nenhuma comanda;
+Possível: select p.nome, p.id from produto p left join comandaproduto cp on cp.produtoid = p.id where cp.id is null group by cp.produtoid;
+Certo	:
+
+32 A quantidade de vezes que um produto saiu em cada comanda;
+Possível: select p.id, count(*) from produto p join comandaproduto cp on cp.produtoid = p.id group by p.id order by count(*) desc;
 Certo	:
