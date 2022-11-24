@@ -32,7 +32,7 @@ var
 implementation
 
 uses
-  UresourceUtils;
+  UresourceUtils, UiniUtils;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -61,15 +61,15 @@ procedure TdmRavin.cnxBancoDeDadosBeforeConnect(Sender: TObject);
     with cnxBancoDeDados do
       begin
         {Params.Values['Database']  := 'ravin';} // The fist time, there's no DataBase
-        Params.Values['Server']    := 'localhost';
-        Params.Values['User_Name'] := 'root';
-        Params.Values['Password']  := 'root';
-        Params.Values['DriverID']  := 'MySQL';
-        Params.Values['Port']      := '3306';
+        Params.Values['Server']    := TIniUtils.lerPropriedade(TSECAO.BANCO_DADOS, TPROPRIEDADE.SERVER);
+        Params.Values['User_Name'] := TIniUtils.lerPropriedade(TSECAO.BANCO_DADOS, TPROPRIEDADE.USUARIO);
+        Params.Values['Password']  := TIniUtils.lerPropriedade(TSECAO.BANCO_DADOS, TPROPRIEDADE.SENHA);
+        Params.Values['DriverID']  := TIniUtils.lerPropriedade(TSECAO.BANCO_DADOS, TPROPRIEDADE.DRIVER);
+        Params.Values['Port']      := TIniUtils.lerPropriedade(TSECAO.BANCO_DADOS, TPROPRIEDADE.PORTA);
 
         if LCreateDataBase then
           begin
-            Params.Values['Database']  := 'ravin';
+            Params.Values['Database']  := TIniUtils.lerPropriedade(TSECAO.BANCO_DADOS, TPROPRIEDADE.DATABASE);;
           end;
       end;
   end;
