@@ -3,7 +3,8 @@ unit UusuarioDao;
 interface
 
 uses
-  UUsuario, FireDAC.Comp.Client, UdmRavin, System.SysUtils;
+  UUsuario, FireDAC.Comp.Client, UdmRavin, System.SysUtils,
+  System.Generics.Collections;
 
 Type
 
@@ -16,12 +17,56 @@ TUsuarioDAO = class
     function BuscarUsuarioPorLoginSenha(
     PLogin: String; PSenha: String): TUsuario;
     procedure InserirUsuario(PUsuario: TUsuario);
+    function BuscarTodosUsuarios(): TList<TUsuario>;
 
 end;
 
 implementation
 
 { TUsuarioDAO }
+
+function TUsuarioDAO.BuscarTodosUsuarios: TList<TUsuario>;
+  var
+    LLista: TList<TUsuario>;
+    LQuery : TFDQuery;
+    LUsuario : TUsuario;
+  begin
+    try
+      LQuery := TFDQuery.Create(nil);
+      LQuery.Connection := dmRavin.cnxBancoDeDados;
+      LQuery.SQL.Text := 'SELECT * FROM USUARIO';
+      LQuery.Open;
+      LQuery.First;
+
+      LLista := TList<TUsuario>.create;
+      LUsuario := nil;
+
+      while not LQuery.Eof do begin
+        begin
+          with LUsuario do
+            begin
+              LUsuario    := TUsuario.Create;
+              ID          := LQuery.FieldByName('id').AsInteger;
+              Login       := LQuery.FieldByName('login').AsString;
+              Senha       := LQuery.FieldByName('senha').AsString;
+              PessoaId    := LQuery.FieldByName('Pessoaid').AsInteger;
+              CriadoEm    := LQuery.FieldByName('CriadoEm').AsDateTime;
+              CriadoPor   := LQuery.FieldByName('CriadoPor').AsString;
+              AlteradoEm  := LQuery.FieldByName('AlteradoEm').AsDateTime;
+              AlteradoPor := LQuery.FieldByName('AlteradoPor').AsString;
+            end;
+          LLista.Add(LUsuario);
+          Lquery.Next;
+        end;
+      end;
+      LQuery.Close;
+      Result:= LLista;
+    finally
+      if assigned(LQuery) then FreeAndNil(LQuery);
+//      if assigned(LLista) then FreeAndNil(LLista);
+//      if assigned(LUsuario) then FreeAndNil(LUsuario);
+    end;
+  end;
 
 function TUsuarioDAO.BuscarUsuarioPorLoginSenha(PLogin,
   PSenha: String): TUsuario;

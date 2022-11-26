@@ -20,7 +20,8 @@ uses
   UfrmBotaoPrimario in '..\codigo\frames\UfrmBotaoPrimario.pas' {frmBotaoPrimario: TFrame},
   UfrmRegistrar in '..\codigo\formularios\UfrmRegistrar.pas' {frmRegistrar},
   ValidadorUsuario in '..\codigo\validadores\ValidadorUsuario.pas',
-  UiniUtils in '..\codigo\Utils\UiniUtils.pas';
+  UiniUtils in '..\codigo\Utils\UiniUtils.pas',
+  UfrmTodosUsuarios in '..\codigo\formularios\UfrmTodosUsuarios.pas' {frmTodosUsuarios};
 
 {$R *.res}
 
