@@ -24,7 +24,7 @@ uses
   UfrmLogin, 
   ValidadorUsuario,
   
-  FireDAC.Phys.MySQLWrapper;
+  FireDAC.Phys.MySQLWrapper, Vcl.Mask;
 
 type
   TfrmRegistrar = class(TForm)
@@ -35,11 +35,11 @@ type
     lblTituloAutenticar: TLabel;
     lblSubTituloAutenticar: TLabel;
     edtNome: TEdit;
-    edtCpf: TEdit;
     frmBotaoPrimarioRegistrar: TfrmBotaoPrimario;
     edtLogin: TEdit;
     edtSenha: TEdit;
     edtConfirmarSenha: TEdit;
+    MaskEditCPF: TMaskEdit;
     procedure lblSubTituloAutenticarClick(Sender: TObject);
     procedure frmBotaoPrimarioRegistrarspbBotaoPrimarioClick(Sender: TObject);
   private

@@ -55,7 +55,11 @@ procedure TdmRavin.cnxBancoDeDadosAfterConnect(Sender: TObject);
 procedure TdmRavin.cnxBancoDeDadosBeforeConnect(Sender: TObject);
   var
     LCreateDataBase: Boolean;
+    LLibPath: String;
   begin
+    LLibPath := TIniUtils.lerPropriedade(TSECAO.BANCO_DADOS, TPROPRIEDADE.VendorLib);
+    drvBancoDeDados.VendorLib := TPath.Combine(
+          TPath.GetDocumentsPath, LLibPath);
     LCreateDataBase := TDirectory.Exists('C:\ProgramData\MySQL\' +
       'MySQL Server 8.0\Data\ravin');
     with cnxBancoDeDados do

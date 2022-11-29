@@ -9,6 +9,7 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.DateUtils,
 
   Vcl.Graphics,
   Vcl.Controls,
@@ -63,15 +64,25 @@ end;
 procedure TfrmSplash.InicializeApplication;
 var
   LLogado : String;
+  LTesteData : TDateTime;
+  LLerData: Boolean;
 begin
   LLogado := TIniUtils.lerPropriedade(TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO);
-  if LLogado = TIniUtils.VALOR_VERDADEIRO then
+  LLerData := TryStrToDate(TIniUtils.lerPropriedade
+   (TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADOEM), LTesteData);
+  if (LLogado = TIniUtils.VALOR_VERDADEIRO) and
+     (LLerData) and
+     (incDay(LTesteData, 5) >= today()) then // 5 Dias
     begin
       ShowPainelGestao;
     end
   else
     begin
       ShowLogin;
+//      TIniUtils.GravarPropriedade
+//      (TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADOEM, '');
+//      TIniUtils.GravarPropriedade
+//      (TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADOPOR, '');
     end;
 end;
 
