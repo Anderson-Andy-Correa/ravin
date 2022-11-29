@@ -68,6 +68,8 @@ procedure TfrmLogin.frmAutenticar1spdAutenticarClick(Sender: TObject);
          SetarFormPrincipal(frmPainelGestao);
          frmPainelGestao.Show;
 
+         edtLogin.Text := '';
+         edtSenha.text := '';
          Close();
       end
     else
