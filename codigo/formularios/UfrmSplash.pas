@@ -35,7 +35,7 @@ type
     procedure InicializeApplication();
     procedure ShowPainelGestao;
     procedure ShowLogin;
-    procedure SetMainForm(NewMainForm: TForm);
+    function VerificarValidadeLogin: Boolean;
   public
     { Public declarations }
   end;
@@ -47,7 +47,7 @@ implementation
 
 {$R *.dfm}
 
-uses UfrmPainelGestao, UfrmLogin, UiniUtils;
+uses UfrmPainelGestao, UfrmLogin, UiniUtils, UFormUtils;
 
 procedure TfrmSplash.FormCreate(Sender: TObject);
 begin
@@ -62,29 +62,16 @@ begin
 end;
 
 procedure TfrmSplash.InicializeApplication;
-var
-  LLogado : String;
-  LTesteData : TDateTime;
-  LLerData: Boolean;
-begin
-  LLogado := TIniUtils.lerPropriedade(TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO);
-  LLerData := TryStrToDate(TIniUtils.lerPropriedade
-   (TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADOEM), LTesteData);
-  if (LLogado = TIniUtils.VALOR_VERDADEIRO) and
-     (LLerData) and
-     (incDay(LTesteData, 5) >= today()) then // 5 Dias
-    begin
-      ShowPainelGestao;
-    end
-  else
-    begin
-      ShowLogin;
-//      TIniUtils.GravarPropriedade
-//      (TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADOEM, '');
-//      TIniUtils.GravarPropriedade
-//      (TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADOPOR, '');
-    end;
-end;
+  begin
+    if VerificarValidadeLogin then
+      begin
+        ShowPainelGestao;
+      end
+    else
+      begin
+        ShowLogin;
+      end;
+  end;
 
 procedure TfrmSplash.tmrSplashTimer(Sender: TObject);
 begin
@@ -96,39 +83,55 @@ begin
   end;
 end;
 
-procedure TfrmSplash.SetMainForm(NewMainForm: TForm);
-var
-  tmpMain: ^TCustomForm;
-begin
-  tmpMain := @Application.Mainform;
-  tmpMain^ := NewMainForm;
-end;
+function TfrmSplash.VerificarValidadeLogin: Boolean;
+  const
+    LDias : integer = 5; // 5 Dias;
+  var
+    LLogado : String;
+    LTesteData : TDateTime;
+    LLerData: Boolean;
+  begin
+    LLogado := TIniUtils.lerPropriedade(TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO);
+    LLerData := TryStrToDate(TIniUtils.lerPropriedade
+     (TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADOEM), LTesteData);
+    Result := (LLogado = TIniUtils.VALOR_VERDADEIRO) and
+              (LLerData) and
+              (incDay(LTesteData, LDias) >= today());
+  end;
 
 procedure TfrmSplash.ShowLogin;
-begin
-  if not Assigned(frmLogin) then
   begin
-    Application.CreateForm(TfrmLogin, frmLogin);
+    TFormUtils.ChangeOpenedForm(TfrmLogin, frmLogin, TfrmSplash);
+
+  //  if not Assigned(frmLogin) then
+  //  begin
+  //    Application.CreateForm(TfrmLogin, frmLogin);
+  //  end;
+  //
+  //  SetMainForm(frmLogin);
+  //  frmLogin.Show();
+  //
+  //  Close;
+
+  //      TIniUtils.GravarPropriedade
+  //      (TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADOEM, '');
+  //      TIniUtils.GravarPropriedade
+  //      (TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADOPOR, '');
   end;
-
-  SetMainForm(frmLogin);
-  frmLogin.Show();
-
-  Close;
-end;
 
 procedure TfrmSplash.ShowPainelGestao;
-begin
-  if not Assigned(frmPainelGestao) then
   begin
-    Application.CreateForm(TfrmPainelGestao, frmPainelGestao);
+    TFormUtils.ChangeOpenedForm(TfrmPainelGestao, frmPainelGestao, frmSplash);
+  //  if not Assigned(frmPainelGestao) then
+  //  begin
+  //    Application.CreateForm(TfrmPainelGestao, frmPainelGestao);
+  //  end;
+  //
+  //  SetMainForm(frmPainelGestao);
+  //  frmPainelGestao.Show();
+  //
+  //  Close;
   end;
-
-  SetMainForm(frmPainelGestao);
-  frmPainelGestao.Show();
-
-  Close;
-end;
 
 end.
 

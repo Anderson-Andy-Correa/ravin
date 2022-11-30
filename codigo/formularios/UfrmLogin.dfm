@@ -14,6 +14,7 @@ object frmLogin: TfrmLogin
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object imgFundo: TImage

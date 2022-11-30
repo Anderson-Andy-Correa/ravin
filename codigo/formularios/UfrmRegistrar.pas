@@ -65,6 +65,8 @@ procedure TfrmRegistrar.frmBotaoPrimarioRegistrarspbBotaoPrimarioClick(
     LUsuario: TUsuario;
     Ldao: TUsuariodao;
 begin
+  LUsuario := nil;
+  LDao := nil;
 
   //Registrar
   //Ler os Valores dos campos
@@ -103,7 +105,7 @@ begin
         end;
     end;
   finally
-    if assigned(LDao) then
+    if (assigned(LDao))then
       begin
         FreeAndNil(LDao);
       end;

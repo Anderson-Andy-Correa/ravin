@@ -43,7 +43,6 @@ type
     procedure frmMenuItemProdutoslblTituloClick(Sender: TObject);
     procedure frmMenuItemMesaslblTituloClick(Sender: TObject);
     procedure frmMenuItemComandaslblTituloClick(Sender: TObject);
-    procedure SetarFormPrincipal(PNovoFormulario: TForm);
   private
     { Private declarations }
   public
@@ -60,73 +59,76 @@ implementation
 uses
   UfrmSobre,
   UfrmProdutos,
-  UfrmMesas, UfrmComandas, UiniUtils, UfrmRegistrar, UfrmLogin;
+  UfrmMesas,
+  UfrmComandas,
+  UiniUtils,
+  UfrmRegistrar,
+  UfrmLogin,
+  UFormUtils;
 
 procedure TfrmPainelGestao.FrameMenuItemMesasLabelTitleClick(Sender: TObject);
-begin
-  if (not Assigned(frmMesas)) then
   begin
-    Application.CreateForm(TfrmMesas, frmMesas);
+    TFormUtils.ChangeOpenedForm(TfrmMesas, frmMesas);
+  //  if (not Assigned(frmMesas)) then
+  //  begin
+  //    Application.CreateForm(TfrmMesas, frmMesas);
+  //  end;
+  //  frmMesas.show();
   end;
-  frmMesas.show();
-end;
 
 procedure TfrmPainelGestao.frmMenuItemComandaslblTituloClick(Sender: TObject);
-begin
-  if(not Assigned(frmComandas)) then begin
-    Application.CreateForm(TfrmComandas, frmComandas);
+  begin
+    TFormUtils.ChangeOpenedForm(TfrmComandas, frmComandas);
+  //  if(not Assigned(frmComandas)) then begin
+  //    Application.CreateForm(TfrmComandas, frmComandas);
+  //  end;
+  //
+  //  frmComandas.show();
   end;
-
-  frmComandas.show();
-end;
 
 procedure TfrmPainelGestao.frmMenuItemMesaslblTituloClick(Sender: TObject);
-begin
-  if (not Assigned(frmMesas)) then
   begin
-    Application.CreateForm(TfrmMesas, frmMesas);
+    TFormUtils.ChangeOpenedForm(TfrmMesas, frmMesas);
+  //  if (not Assigned(frmMesas)) then
+  //  begin
+  //    Application.CreateForm(TfrmMesas, frmMesas);
+  //  end;
+  //  frmMesas.show();
   end;
-  frmMesas.show();
-end;
 
 procedure TfrmPainelGestao.frmMenuItemProdutoslblTituloClick(Sender: TObject);
-begin
-  if (not Assigned(frmProdutos)) then
   begin
-    Application.CreateForm(TfrmProdutos, frmProdutos);
+    TFormUtils.ChangeOpenedForm(TfrmProdutos, frmProdutos);
+  //  if (not Assigned(frmProdutos)) then
+  //  begin
+  //    Application.CreateForm(TfrmProdutos, frmProdutos);
+  //  end;
+  //  frmProdutos.show();
   end;
-  frmProdutos.show();
-end;
 
 procedure TfrmPainelGestao.frmMenuItemSairlblTituloClick(Sender: TObject);
-begin
-  TIniUtils.gravarPropriedade(TSecao.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO, TIniUtils.VALOR_FALSO);
-  if not Assigned(frmLogin) then
-    begin
-      Application.CreateForm(TfrmLogin, frmLogin);
-    end;
-
-    SetarFormPrincipal(frmLogin);
-    frmLogin.Show();
-
-    Close();
-end;
+  begin
+    TIniUtils.gravarPropriedade(TSecao.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO, TIniUtils.VALOR_FALSO);
+    TFormUtils.ChangeOpenedForm(TfrmLogin, frmLogin, frmPainelGestao);
+  //  if not Assigned(frmLogin) then
+  //    begin
+  //      Application.CreateForm(TfrmLogin, frmLogin);
+  //    end;
+  //
+  //    SetarFormPrincipal(frmLogin);
+  //    frmLogin.Show();
+  //
+  //    Close();
+  end;
 
 procedure TfrmPainelGestao.frmMenuItemSobrelblTituloClick(Sender: TObject);
-begin
-  if (not Assigned(frmSobre)) then
   begin
-    Application.CreateForm(TfrmSobre, frmSobre)
-  end;
-  frmSobre.show();
-end;
-
-procedure TfrmPainelGestao.SetarFormPrincipal(PNovoFormulario: TForm);
-  var
-    tmpMain: ^TCustomForm;
-  begin
-    tmpMain := @Application.Mainform;
-    tmpMain^ := PNovoFormulario;
+    TFormUtils.ChangeOpenedForm(TfrmSobre, frmSobre);
+  //  if (not Assigned(frmSobre)) then
+  //  begin
+  //    Application.CreateForm(TfrmSobre, frmSobre)
+  //  end;
+  //  frmSobre.show();
   end;
 
 end.

@@ -31,6 +31,10 @@ function TUsuarioDAO.BuscarTodosUsuarios: TList<TUsuario>;
     LQuery : TFDQuery;
     LUsuario : TUsuario;
   begin
+    LLista   := nil;
+    LQuery   := nil;
+    LUsuario := nil;
+
     try
       LQuery := TFDQuery.Create(nil);
       LQuery.Connection := dmRavin.cnxBancoDeDados;
@@ -39,28 +43,27 @@ function TUsuarioDAO.BuscarTodosUsuarios: TList<TUsuario>;
       LQuery.First;
 
       LLista := TList<TUsuario>.create;
-      LUsuario := nil;
 
       while not LQuery.Eof do begin
-        begin
-          with LUsuario do
-            begin
-              LUsuario    := TUsuario.Create;
-              ID          := LQuery.FieldByName('id').AsInteger;
-              Login       := LQuery.FieldByName('login').AsString;
-              Senha       := LQuery.FieldByName('senha').AsString;
-              PessoaId    := LQuery.FieldByName('Pessoaid').AsInteger;
-              CriadoEm    := LQuery.FieldByName('CriadoEm').AsDateTime;
-              CriadoPor   := LQuery.FieldByName('CriadoPor').AsString;
-              AlteradoEm  := LQuery.FieldByName('AlteradoEm').AsDateTime;
-              AlteradoPor := LQuery.FieldByName('AlteradoPor').AsString;
-            end;
-          LLista.Add(LUsuario);
-          Lquery.Next;
+        with LUsuario do
+          begin
+            LUsuario    := TUsuario.Create;
+            ID          := LQuery.FieldByName('id').AsInteger;
+            Login       := LQuery.FieldByName('login').AsString;
+            Senha       := LQuery.FieldByName('senha').AsString;
+            PessoaId    := LQuery.FieldByName('Pessoaid').AsInteger;
+            CriadoEm    := LQuery.FieldByName('CriadoEm').AsDateTime;
+            CriadoPor   := LQuery.FieldByName('CriadoPor').AsString;
+            AlteradoEm  := LQuery.FieldByName('AlteradoEm').AsDateTime;
+            AlteradoPor := LQuery.FieldByName('AlteradoPor').AsString;
+          end;
+        LLista.Add(LUsuario);
+        Lquery.Next;
         end;
-      end;
+
       LQuery.Close;
       Result:= LLista;
+
     finally
       if assigned(LQuery) then FreeAndNil(LQuery);
 //      if assigned(LLista) then FreeAndNil(LLista);
@@ -100,7 +103,6 @@ function TUsuarioDAO.BuscarUsuarioPorLoginSenha(PLogin,
     LQuery.Close();
     FreeAndNil(LQuery);
     Result := LUsuario;
-
   end;
 
 procedure TUsuarioDAO.InserirUsuario(PUsuario: TUsuario);
@@ -126,7 +128,6 @@ procedure TUsuarioDAO.InserirUsuario(PUsuario: TUsuario);
         ParamByName('AlteradoPor').AsString  := PUsuario.AlteradoPor;
         ExecSQL();
       end;
-
     FreeAndNil(LQuery);
   end;
 
