@@ -22,7 +22,13 @@ uses
   ValidadorUsuario in '..\codigo\validadores\ValidadorUsuario.pas',
   UiniUtils in '..\codigo\Utils\UiniUtils.pas',
   UfrmTodosUsuarios in '..\codigo\formularios\UfrmTodosUsuarios.pas' {frmTodosUsuarios},
-  UFormUtils in '..\codigo\Utils\UFormUtils.pas';
+  UFormUtils in '..\codigo\Utils\UFormUtils.pas',
+  UfrmBotaoCancelar in '..\codigo\frames\UfrmBotaoCancelar.pas' {frmBotaoCancelar: TFrame},
+  UfrmBotaoExcluir in '..\codigo\frames\UfrmBotaoExcluir.pas' {frmBotaoExcluir: TFrame},
+  UfrmCadastroCliente in '..\codigo\formularios\UfrmCadastroCliente.pas' {frmCadastroCliente},
+  UfrmListaClientes in '..\codigo\formularios\UfrmListaClientes.pas' {frmListaClientes},
+  UPessoa in '..\codigo\Modelos\UPessoa.pas',
+  UPessoaDao in '..\codigo\dao\UPessoaDao.pas';
 
 {$R *.res}
 

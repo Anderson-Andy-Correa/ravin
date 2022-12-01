@@ -42,6 +42,7 @@ type
     MaskEditCPF: TMaskEdit;
     procedure lblSubTituloAutenticarClick(Sender: TObject);
     procedure frmBotaoPrimarioRegistrarspbBotaoPrimarioClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     procedure SetMainForm(NovoMainForm: TForm);
@@ -58,6 +59,11 @@ uses
   Uusuario, UusuarioDao;
 
 {$R *.dfm}
+
+procedure TfrmRegistrar.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FreeAndNil(frmRegistrar);
+end;
 
 procedure TfrmRegistrar.frmBotaoPrimarioRegistrarspbBotaoPrimarioClick(
   Sender: TObject);

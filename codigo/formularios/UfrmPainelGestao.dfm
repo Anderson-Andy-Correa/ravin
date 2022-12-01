@@ -13,6 +13,7 @@ object frmPainelGestao: TfrmPainelGestao
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnClose = FormClose
   DesignSize = (
     640
     480)
@@ -2339,7 +2340,8 @@ object frmPainelGestao: TfrmPainelGestao
       ExplicitTop = 252
       inherited pnlFundo: TPanel
         inherited lblTitulo: TLabel
-          Caption = 'Pessoas'
+          Caption = 'Clientes'
+          OnClick = frmMenuItemPessoaslblTituloClick
         end
       end
     end

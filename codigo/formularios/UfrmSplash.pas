@@ -29,6 +29,7 @@ type
     procedure tmrSplashTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormPaint(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     Inicialized: Boolean;
@@ -48,6 +49,11 @@ implementation
 {$R *.dfm}
 
 uses UfrmPainelGestao, UfrmLogin, UiniUtils, UFormUtils;
+
+procedure TfrmSplash.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FreeAndNil(frmSplash);
+end;
 
 procedure TfrmSplash.FormCreate(Sender: TObject);
 begin
@@ -101,17 +107,17 @@ function TfrmSplash.VerificarValidadeLogin: Boolean;
 
 procedure TfrmSplash.ShowLogin;
   begin
-    TFormUtils.ChangeOpenedForm(TfrmLogin, frmLogin, TfrmSplash);
+    //TFormUtils.ChangeOpenedForm(TfrmLogin, frmLogin, TfrmSplash);
 
-  //  if not Assigned(frmLogin) then
-  //  begin
-  //    Application.CreateForm(TfrmLogin, frmLogin);
-  //  end;
-  //
-  //  SetMainForm(frmLogin);
-  //  frmLogin.Show();
-  //
-  //  Close;
+    if not Assigned(frmLogin) then
+    begin
+      Application.CreateForm(TfrmLogin, frmLogin);
+    end;
+
+    TFormUtils.SetMainForm(frmLogin);
+    frmLogin.Show();
+
+    Close;
 
   //      TIniUtils.GravarPropriedade
   //      (TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADOEM, '');
@@ -121,16 +127,16 @@ procedure TfrmSplash.ShowLogin;
 
 procedure TfrmSplash.ShowPainelGestao;
   begin
-    TFormUtils.ChangeOpenedForm(TfrmPainelGestao, frmPainelGestao, frmSplash);
-  //  if not Assigned(frmPainelGestao) then
-  //  begin
-  //    Application.CreateForm(TfrmPainelGestao, frmPainelGestao);
-  //  end;
-  //
-  //  SetMainForm(frmPainelGestao);
-  //  frmPainelGestao.Show();
-  //
-  //  Close;
+  //  TFormUtils.ChangeOpenedForm(TfrmPainelGestao, frmPainelGestao, frmSplash);
+    if not Assigned(frmPainelGestao) then
+    begin
+      Application.CreateForm(TfrmPainelGestao, frmPainelGestao);
+    end;
+
+    TFormUtils.SetMainForm(frmPainelGestao);
+    frmPainelGestao.Show();
+
+    Close;
   end;
 
 end.

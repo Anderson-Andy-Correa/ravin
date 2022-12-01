@@ -43,6 +43,8 @@ type
     procedure frmMenuItemProdutoslblTituloClick(Sender: TObject);
     procedure frmMenuItemMesaslblTituloClick(Sender: TObject);
     procedure frmMenuItemComandaslblTituloClick(Sender: TObject);
+    procedure frmMenuItemPessoaslblTituloClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -64,7 +66,12 @@ uses
   UiniUtils,
   UfrmRegistrar,
   UfrmLogin,
-  UFormUtils;
+  UFormUtils, UfrmListaClientes;
+
+procedure TfrmPainelGestao.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FreeAndNil(frmPainelGestao);
+end;
 
 procedure TfrmPainelGestao.FrameMenuItemMesasLabelTitleClick(Sender: TObject);
   begin
@@ -95,6 +102,15 @@ procedure TfrmPainelGestao.frmMenuItemMesaslblTituloClick(Sender: TObject);
   //  end;
   //  frmMesas.show();
   end;
+
+procedure TfrmPainelGestao.frmMenuItemPessoaslblTituloClick(Sender: TObject);
+begin
+  if (not Assigned(frmListaClientes)) then
+    begin
+      Application.CreateForm(TfrmListaClientes, frmListaClientes);
+    end;
+    frmListaClientes.show();
+end;
 
 procedure TfrmPainelGestao.frmMenuItemProdutoslblTituloClick(Sender: TObject);
   begin

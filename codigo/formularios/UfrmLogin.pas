@@ -40,8 +40,7 @@ uses
 
 procedure TfrmLogin.FormClose(Sender: TObject; var Action: TCloseAction);
   begin
-    edtLogin.Text := '';
-    edtSenha.text := '';
+    FreeAndNil(frmLogin);
   end;
 
 procedure TfrmLogin.frmAutenticar1spdAutenticarClick(Sender: TObject);
@@ -67,19 +66,17 @@ procedure TfrmLogin.frmAutenticar1spdAutenticarClick(Sender: TObject);
         TIniUtils.gravarPropriedade(TSecao.INFORMACOES_GERAIS,
          TPROPRIEDADE.LOGADOPOR, LLogin);
 
-        TFormUtils.ChangeOpenedForm(TfrmPainelGestao, frmPainelGestao, frmLogin);
+//        TFormUtils.ChangeOpenedForm(TfrmPainelGestao, frmPainelGestao, frmLogin);
 
-//        if not assigned(frmPainelGestao) then
-//          begin
-//            application.CreateForm(TfrmPainelGestao, frmPainelGestao);
-//          end;
-//
-//         SetarFormPrincipal(frmPainelGestao);
-//         frmPainelGestao.Show;
-//
-//         edtLogin.Text := '';
-//         edtSenha.text := '';
-//         Close();
+        if not assigned(frmPainelGestao) then
+          begin
+            application.CreateForm(TfrmPainelGestao, frmPainelGestao);
+          end;
+
+         TFormUtils.SetMainForm(frmPainelGestao);
+         frmPainelGestao.Show;
+
+         Close();
       end
     else
       begin
@@ -92,16 +89,16 @@ procedure TfrmLogin.frmAutenticar1spdAutenticarClick(Sender: TObject);
 
 procedure TfrmLogin.lblSubTituloRegistrarClick(Sender: TObject);
   begin
-    TFormUtils.ChangeOpenedForm(TfrmRegistrar, frmRegistrar, frmLogin);
-//    if not Assigned(frmRegistrar) then
-//    begin
-//      Application.CreateForm(TfrmRegistrar, frmRegistrar);
-//    end;
-//
-//    SetarFormPrincipal(frmRegistrar);
-//    frmRegistrar.Show();
-//
-//    Close();
+//    TFormUtils.ChangeOpenedForm(TfrmRegistrar, frmRegistrar, frmLogin);
+    if not Assigned(frmRegistrar) then
+    begin
+      Application.CreateForm(TfrmRegistrar, frmRegistrar);
+    end;
+
+    TFormUtils.SetMainForm(frmRegistrar);
+    frmRegistrar.Show();
+
+    Close();
   end;
 
 end.
